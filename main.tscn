@@ -1,0 +1,249 @@
+[gd_scene load_steps=14 format=3 uid="uid://dd6so3b7x2eiv"]
+
+[ext_resource type="Material" uid="uid://dwt5j5wk6uo0u" path="res://material/ground.tres" id="1_1bvp3"]
+[ext_resource type="Script" uid="uid://bc8q36u1jupnh" path="res://character_body_3d.gd" id="1_ig7tw"]
+[ext_resource type="Material" uid="uid://bctokxt6o0gqd" path="res://material/player.tres" id="3_lquwl"]
+[ext_resource type="Material" uid="uid://boxvjgsgrn67d" path="res://material/enemy.tres" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://c6hjd4txdi8ye" path="res://camera_3d.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://cq7c4v5xh5apf" path="res://restart_btn.gd" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://ctqoxl77j6gx6" path="res://fps.gd" id="7_272bh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7dm0k"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_ig7tw"]
+sky_material = SubResource("ProceduralSkyMaterial_7dm0k")
+
+[sub_resource type="Environment" id="Environment_0xm2m"]
+background_mode = 2
+sky = SubResource("Sky_ig7tw")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h2yge"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_p1glp"]
+font_size = 50
+font_color = Color(1, 0, 0, 1)
+outline_size = 3
+
+[node name="main" type="Node3D"]
+
+[node name="world" type="Node3D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="Camera3D" type="Camera3D" parent="world"]
+auto_translate_mode = 2
+transform = Transform3D(1, 0, 0, 0, 0.602706, 0.797963, 0, -0.797963, 0.602706, -0.0473608, 6.21534, 4.46829)
+fov = 85.0
+script = ExtResource("5_lquwl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="world"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="world"]
+environment = SubResource("Environment_0xm2m")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="world"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+material_override = ExtResource("1_1bvp3")
+use_collision = true
+size = Vector3(6, 1, 50)
+
+[node name="player" type="CharacterBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62511, 3.14451)
+script = ExtResource("1_ig7tw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="player"]
+material_override = ExtResource("3_lquwl")
+mesh = SubResource("BoxMesh_0xm2m")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player"]
+shape = SubResource("BoxShape3D_h2yge")
+
+[node name="obstacles" type="Node3D" parent="." groups=["enemy"]]
+
+[node name="mediums" type="Node3D" parent="obstacles"]
+
+[node name="medium" type="CSGBox3D" parent="obstacles/mediums" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -9.551)
+material_override = ExtResource("4_7mycd")
+use_collision = true
+size = Vector3(2, 1, 1)
+
+[node name="medium2" type="CSGBox3D" parent="obstacles/mediums" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.91198, 1, -24.2366)
+material_override = ExtResource("4_7mycd")
+use_collision = true
+size = Vector3(2, 1, 1)
+
+[node name="medium3" type="CSGBox3D" parent="obstacles/mediums" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.70858, 1, -35.3635)
+material_override = ExtResource("4_7mycd")
+use_collision = true
+size = Vector3(2, 1, 1)
+
+[node name="medium4" type="CSGBox3D" parent="obstacles/mediums" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95266, 1, -35.3635)
+material_override = ExtResource("4_7mycd")
+use_collision = true
+size = Vector3(2, 1, 1)
+
+[node name="bigs" type="Node3D" parent="obstacles"]
+
+[node name="big" type="CSGBox3D" parent="obstacles/bigs" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.735489, 1, -1.706)
+material_override = ExtResource("4_7mycd")
+use_collision = true
+size = Vector3(3.5, 1, 1)
+
+[node name="big2" type="CSGBox3D" parent="obstacles/bigs" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.04537, 1, -21.2177)
+material_override = ExtResource("4_7mycd")
+use_collision = true
+size = Vector3(3.5, 1, 1)
+
+[node name="big3" type="CSGBox3D" parent="obstacles/bigs" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0283594, 1, -37.7427)
+material_override = ExtResource("4_7mycd")
+use_collision = true
+size = Vector3(3.5, 1, 1)
+
+[node name="smalls" type="Node3D" parent="obstacles"]
+
+[node name="small1" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.93198, 1, -4.76781)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small2" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0113001, 1, -7.18561)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small3" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.63823, 1, -12.7694)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small4" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.93198, 1, -12.7246)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small5" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.101685, 1, -16.0826)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small6" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.63823, 1, -18.3284)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small8" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.90096, 1, -26.5052)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small9" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.09085, 1, -26.9526)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small10" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.260232, 1, -30.085)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small11" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00949, 1, -32.9733)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small12" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.237602, 1, -32.9733)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small14" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.074878, 1, -43.0214)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small15" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.20322, 1, -40.3672)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small16" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.14958, 1, -40.3672)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small13" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.23094, 1, -32.9733)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="small7" type="CSGBox3D" parent="obstacles/smalls" groups=["enemy"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.63823, 1, -4.76781)
+material_override = ExtResource("4_7mycd")
+material_overlay = ExtResource("4_7mycd")
+use_collision = true
+
+[node name="GameOverScreen" type="Node2D" parent="."]
+visible = false
+
+[node name="Label" type="Label" parent="GameOverScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 478.0
+offset_top = 296.0
+offset_right = 757.0
+offset_bottom = 365.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_p1glp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="restartBtn" type="Button" parent="GameOverScreen"]
+offset_left = 458.0
+offset_top = 397.0
+offset_right = 773.0
+offset_bottom = 547.0
+text = "ReStart"
+script = ExtResource("6_7mycd")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 287.0
+offset_top = 25.0
+offset_right = 327.0
+offset_bottom = 48.0
+script = ExtResource("7_272bh")
+
+[connection signal="button_down" from="GameOverScreen/restartBtn" to="GameOverScreen/restartBtn" method="_on_button_down"]

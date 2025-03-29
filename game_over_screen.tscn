@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://bh07fgdymh5g1"]
+
+[ext_resource type="Script" uid="uid://cq7c4v5xh5apf" path="res://restart_btn.gd" id="1_gt22q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_p1glp"]
+font_size = 50
+font_color = Color(1, 0, 0, 1)
+outline_size = 3
+
+[node name="GameOverScreen" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 478.0
+offset_top = 296.0
+offset_right = 757.0
+offset_bottom = 365.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_p1glp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="restartBtn" type="Button" parent="."]
+offset_left = 458.0
+offset_top = 397.0
+offset_right = 773.0
+offset_bottom = 547.0
+text = "ReStart"
+script = ExtResource("1_gt22q")
+
+[connection signal="button_down" from="restartBtn" to="restartBtn" method="_on_button_down"]
